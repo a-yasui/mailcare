@@ -56,29 +56,29 @@ class ReceiveEmail extends Command
         /** @var Sender $sender */
         $sender = \DB::transaction( function () use ( $parser ){
             // UUIDv4でユニークなる設計にしているため、BCCで飛ばされたら二通目以降が死ぬのを対処
-            usleep( 1000 * 0.2 );
-            return Sender::updateOrCreate(
-                [
-                    'email' => $parser->getAddresses( 'from' )[ 0 ][ "address" ]
-                ],
-                [
-                    'display_name' => $parser->getAddresses( 'from' )[ 0 ][ "display" ],
-                ]
-            );
+            $result = null;
+            foreach($parser->getAddresses( 'from' ) as $num => $item){
+                usleep( 1000 * 0.2 );
+                $result = Sender::updateOrCreate(
+                    [ 'email' => $item[ "address" ] ],
+                    [ 'display_name' => $item[ "display" ], ]
+                );
+            }
+            return $result;
         }, 3 );
 
         /** @var Inbox $inbox */
         $inbox = \DB::transaction( function () use ( $parser ){
             // UUIDv4でユニークなる設計にしているため、BCCで飛ばされたら二通目以降が死ぬのを対処
-            usleep( 1000 * 0.2 ); // 0.2秒
-            return Inbox::updateOrCreate(
-                [
-                    'email' => $parser->getAddresses( 'to' )[ 0 ][ "address" ]
-                ],
-                [
-                    'display_name' => $parser->getAddresses( 'to' )[ 0 ][ "display" ],
-                ]
-            );
+            $result = null;
+            foreach($parser->getAddresses( 'to' ) as $num => $tos){
+                usleep( 1000 * 0.2 ); // 0.2秒
+                $result = Inbox::updateOrCreate(
+                    [ 'email' => $tos[ "address" ] ],
+                    [ 'display_name' => $tos[ "display" ], ]
+                );
+            }
+            return $result;
         }, 3 );
 
         $email = new Email;

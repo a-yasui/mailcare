@@ -33,7 +33,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Inbox extends Model
 {
-    use Uuids;
     use HasFactory;
     
     public $incrementing = false;
