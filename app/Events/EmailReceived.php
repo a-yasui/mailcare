@@ -5,6 +5,9 @@ namespace App\Events;
 use App\Email;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ *
+ */
 class EmailReceived
 {
     use SerializesModels;

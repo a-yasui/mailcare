@@ -11,6 +11,9 @@ use \PhpMimeMailParser\Parser;
 use Illuminate\Support\Facades\Storage;
 use App\Events\EmailReceived;
 
+/**
+ *
+ */
 class ReceiveEmail extends Command
 {
     /**
@@ -50,23 +53,33 @@ class ReceiveEmail extends Command
 
         $parser = $this->getParser($file);
 
-        $sender = Sender::updateOrCreate(
-            [
-                'email' => $parser->getAddresses('from')[0]["address"]
-            ],
-            [
-                'display_name' => $parser->getAddresses('from')[0]["display"],
-            ]
-        );
-        
-        $inbox = Inbox::updateOrCreate(
-            [
-                'email' => $parser->getAddresses('to')[0]["address"]
-            ],
-            [
-                'display_name' => $parser->getAddresses('to')[0]["display"],
-            ]
-        );
+        /** @var Sender $sender */
+        $sender = \DB::transaction( function () use ( $parser ){
+            // UUIDv4でユニークなる設計にしているため、BCCで飛ばされたら二通目以降が死ぬのを対処
+            usleep( 1000 * 0.2 );
+            return Sender::updateOrCreate(
+                [
+                    'email' => $parser->getAddresses( 'from' )[ 0 ][ "address" ]
+                ],
+                [
+                    'display_name' => $parser->getAddresses( 'from' )[ 0 ][ "display" ],
+                ]
+            );
+        }, 3 );
+
+        /** @var Inbox $inbox */
+        $inbox = \DB::transaction( function () use ( $parser ){
+            // UUIDv4でユニークなる設計にしているため、BCCで飛ばされたら二通目以降が死ぬのを対処
+            usleep( 1000 * 0.2 ); // 0.2秒
+            return Inbox::updateOrCreate(
+                [
+                    'email' => $parser->getAddresses( 'to' )[ 0 ][ "address" ]
+                ],
+                [
+                    'display_name' => $parser->getAddresses( 'to' )[ 0 ][ "display" ],
+                ]
+            );
+        }, 3 );
 
         $email = new Email;
         $email->subject = $parser->getHeader('subject');
