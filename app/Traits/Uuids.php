@@ -4,6 +4,9 @@ namespace App\Traits;
 
 use Illuminate\Support\Str;
 
+/**
+ *
+ */
 trait Uuids
 {
     protected static function bootUuids()

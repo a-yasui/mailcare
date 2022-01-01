@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Automation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class AutomationFactory extends Factory
 {
     /**

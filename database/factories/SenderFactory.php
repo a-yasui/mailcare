@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Sender;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class SenderFactory extends Factory
 {
     /**

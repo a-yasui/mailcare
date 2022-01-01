@@ -7,6 +7,9 @@ use App\Sender;
 use App\Inbox;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class EmailFactory extends Factory
 {
     /**

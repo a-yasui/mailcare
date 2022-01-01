@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Statistic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class StatisticFactory extends Factory
 {
     /**

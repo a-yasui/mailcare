@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Inbox;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class InboxFactory extends Factory
 {
     /**

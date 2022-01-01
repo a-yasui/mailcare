@@ -5,6 +5,29 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Statistic
+ *
+ * @property int $id
+ * @property string $created_at
+ * @property int $emails_received
+ * @property int $inboxes_created
+ * @property int $storage_used
+ * @property int $cumulative_storage_used
+ * @property int $emails_deleted
+ * @method static \Database\Factories\StatisticFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereCumulativeStorageUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereEmailsDeleted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereEmailsReceived($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereInboxesCreated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Statistic whereStorageUsed($value)
+ * @mixin \Eloquent
+ */
 class Statistic extends Model
 {
     use HasFactory;

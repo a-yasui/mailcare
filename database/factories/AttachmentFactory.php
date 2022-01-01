@@ -6,6 +6,9 @@ use App\Attachment;
 use App\Email;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ *
+ */
 class AttachmentFactory extends Factory
 {
     /**
