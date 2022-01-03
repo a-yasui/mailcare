@@ -56,7 +56,7 @@ class ThirtyMinuteClean extends Command
         $this->line( "Cleaning Threshold date " . $date );
 
         $emails = Email::where( 'created_at', '<', $date )->delete();
-        $this->info( "Emails to clean: " . count( $emails ) );
+        $this->info( "Emails to clean: " . $emails );
 
         return 0;
     }
