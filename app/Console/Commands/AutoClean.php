@@ -13,7 +13,7 @@ class AutoClean extends Command
      *
      * @var string
      */
-    protected $signature = 'mailcare:clean';
+    protected $signature = 'mailcare:clean {--before_date= : threshold of email date}';
 
     /**
      * The console command description.
@@ -32,6 +32,16 @@ class AutoClean extends Command
         parent::__construct();
     }
 
+    public function getThresholdDate(): Carbon
+    {
+        $date = $this->option( 'before_date', null );
+        if (empty( $date )) {
+            return Carbon::now()->startOfDay()->subMonth();
+        }
+        return new Carbon( $date );
+    }
+
+
     /**
      * Execute the console command.
      *
@@ -39,13 +49,14 @@ class AutoClean extends Command
      */
     public function handle()
     {
-        $this->line("-------------------------------------------------");
-        $this->line("AutoClean command executed at ".Carbon::now());
+        $this->line( "-------------------------------------------------" );
+        $this->line( "AutoClean command executed at " . Carbon::now() );
+        $date = $this->getThresholdDate();
 
-        $date = Carbon::now()->subMonth();
+        $this->line( "Cleaning Threshold date " . $date );
 
-        $emails = Email::onlyTrashed()->where('deleted_at', '<', $date)->get();
-        $this->info("Emails to clean: ".count($emails));
+        $emails = Email::onlyTrashed()->where( 'deleted_at', '<', $date )->get();
+        $this->info( "Emails to clean: " . count( $emails ) );
         $emails->each->forceDelete();
 
         return 0;
